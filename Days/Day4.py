@@ -28,13 +28,13 @@ def day4_part2(matrix):
     position_a = []
     for y, line in enumerate(matrix):
         position_a.extend(
-            [(x, y) for x, char in enumerate(line)
+            [(y, x) for x, char in enumerate(line)
              if char == "A" and (x in range(1, len(matrix) - 1) and y in range(1, len(matrix) - 1))])
     coordinates = [((-1,-1),(1,1)),((-1,1),(1,-1))]
     for a in position_a:
         (y,x) = a
         options = ["M","S"]
-        both_diagonals = False
+        both_diagonals = []
         for coordinate in coordinates:
             found = []
             for position in coordinate:
@@ -42,11 +42,13 @@ def day4_part2(matrix):
                 for option in options:
                     if check_position((y +i, x + j), matrix, option):
                         found.append(option)
-                if ("M" in found and "S" in found):
-                    both_diagonals = True
-                else:
-                    both_diagonals = False
-        if both_diagonals:
+                        break
+            if ("M" in found and "S" in found):
+                both_diagonals.append(True)
+            else:
+                both_diagonals.append(False)
+        if both_diagonals[0] and both_diagonals[1]:
+            print(a)
             count += 1
     print(count)
 
